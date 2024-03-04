@@ -31,7 +31,8 @@ detector = gl.get_or_create_detector(
     confidence_threshold=0.7
     )
 
-img = "./ppe_images/2024-03-03-151437.jpg"  # Image can be a file or a Python object
+# in my examples, the images in question are located in /ppe_images and /new_images
+img = "./path/to/image.jpg"  # Image can be a file or a Python object
 image_query = gl.submit_image_query(detector=detector, image=img)
 
 # Example outputs:
