@@ -47,7 +47,7 @@ if __name__ == "__main__":
             wait=12.0,
             patience_time=12.0,
             confidence_threshold=0.7,
-            human_review="NEVER"
+            human_review="ALWAYS"
             )
 
         print(f"* Processing image: {img_file_path} *")
