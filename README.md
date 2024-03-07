@@ -1,22 +1,23 @@
 # PPE Detection with the Groundlight Python SDK
 
-Groundlight makes it simple to build reliable visual applications. In this example, the SDK is used to create a Groundlight detector to discern with computer vision whether PPE is properly worn.
+Groundlight makes it simple to build reliable visual applications. In this example, the SDK is used to create a Groundlight detector to discern with computer vision whether Personal Protective Equipment, or PPE, is properly worn.
 
 Read the [full Groundlight documentation here](https://code.groundlight.ai/python-sdk/).
 
+[Read my full blog post](https://medium.com/@mo.traor3/ppe-detection-with-the-groundlight-python-sdk-38396c9f9a66) on the project. I've included a few highlights from my blog post below.
+
 ## Computer Vision powered by Natural Language
 
-Build a working computer vision system powered by natural language in just a few lines of python.
+Our goal is to build a working computer vision system powered by natural language in just a few lines of python.
 
-This computer vision system was created to learn whether the person in the image is properly wearing both their hard hat and safety vest.
+This computer vision system was created to learn whether the person in an image, or video stream, such as in the example below, is properly wearing both their hard hat and safety vest.
 
 Example Image:
 ![A person (me) wearing a hard hat and safety vest.](/assets/original_model_ppe.png)
 
-It is important to note the query should only resolve to "yes" if both PPE items are properly worn. If one is not worn properly, or out of place, the model should return a result, or label, of "NO."
+It is important to note the query should only resolve to "YES" if both PPE items are properly worn. If one is not worn properly, or out of place, the model should return a result, or label, of "NO."
 
 ```python
-import os
 from groundlight import Groundlight
 
 
@@ -47,35 +48,17 @@ This is because in a manufacturing setting, it is better to be safe than sorry w
 
 * [More Industrial and Manufacturing Applications](https://code.groundlight.ai/python-sdk/docs/building-applications/industrial)
 
-### Initial Accuracy of the ML System
-
-In the interest of comparing initial results to ground truth labels, or my personal evaluation of queries for each image, I added ground truth labels to the first 18 images I sent to the system via API.
-
-![Original AI system accuracy vs. Ground Truth labels](/assets/original-accuracy.png)
-
-The initial ML system was correct 86% of the time when assigning a label of "YES," and 100% of the time when assigning a label of "NO."
-
-* NOTE: As a reminder, the model is queried with: "Is the person in the image wearing both their hard hat and safety vest properly?"
-
-Unfortunately, the model was less than 70% confident in each prediction, which is below my desired confidence threshold for predictions.
-
-### Testing the Updated Model
-
-Now that I've added ground truth labels to the first 18 images used in model queries, my model should begin to have higher confidence. Again, the reason this is key is because I'd rather be more confident that safety equipment is properly worn, especially if I decide to use this as a real-time verification system, in addition to a post-processing audit system.
-
-Here are my results for queries on my new images, 12 examples were used.
-
-![Example Image](/assets/updated_model_no.png)
-
 ![Terminal Output](/assets/terminal_output.png)
 
-The updated model correctly guessed that this image should resolve to "NO" AND at a confidence of 71.4%!
+The updated model is beginning to assign labels of "YES" or "NO" at confidences at or above 70% more often!
 
-![Overall AI system accuracy vs. Ground Truth labels](/assets/updated-accuracy.png)
+[Read my blog post](https://medium.com/@mo.traor3/ppe-detection-with-the-groundlight-python-sdk-38396c9f9a66) for a deeper dive on the results.
 
-After adding updated ground truth labels for images under 70% confidence, you can see in my overall summary my system has a higher "Balanced ML Accuracy," -- 96% vs. the original 93% -- further proof my AI system is progressing nicely!
+![Sample Results](/assets/updated-accuracy.png)
 
-Overall, our ML system was correct 92% of the time when assigning a label of "YES," and 100% of the time when assigning a label of "NO."
+### Final Notes
+
+It only took me about 75 labeled images to reliably reach 70%+ confidence with the fastest possible answers from the ML system. This is fantastic for those looking to implement solutions for tasks such as increasing worker safety in your factory, warehouse or construction site. And the more you use your model, the better it becomes!
 
 Thanks to the Groundlight team for your hard work!
 

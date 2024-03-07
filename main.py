@@ -38,6 +38,7 @@ if __name__ == "__main__":
         )
 
     image_files = img_source(args.evaluation)
+    print("\n")
 
     for img_file_path in image_files:
         image_query = gl.submit_image_query(
@@ -49,4 +50,5 @@ if __name__ == "__main__":
             human_review="NEVER"
             )
 
+        print(f"* Processing image: {img_file_path} *")
         print(f"The answer is {image_query.result.label} | Query confidence = {image_query.result.confidence}")
