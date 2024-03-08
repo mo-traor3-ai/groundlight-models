@@ -51,12 +51,13 @@ def play_sound(audio_file: str):
     """
     playsound(audio_file)
 
-def run_detector(GROUNDLIGHT_TOKEN: str, waiting_period: int = 60):
+def run_detector(GROUNDLIGHT_TOKEN: str, audio_file: str, waiting_period: int = 60):
     """Activates the detector via the Groundlight SDK. Utilizes capture_image() to
     collect the image, and play_sound() to play our warning sound if our criteria is met.
     
     Args:
         GROUNDLIGHT_TOKEN (str): The API token for the Groundlight detector.
+        audio_file (str): The path to the audio file.
         waiting_period (int): How long to wait (in seconds) between queries to the detector.
 
     Returns:
@@ -76,8 +77,8 @@ def run_detector(GROUNDLIGHT_TOKEN: str, waiting_period: int = 60):
             try:
                 iq = gl.submit_image_query(detector=detector,
                                            image=image,
-                                           wait=12.0,
-                                           patience_time=12.0,
+                                           wait=10.0,
+                                           patience_time=10.0,
                                            confidence_threshold=0.7,
                                            human_review="ALWAYS"
                                            )
@@ -85,7 +86,7 @@ def run_detector(GROUNDLIGHT_TOKEN: str, waiting_period: int = 60):
                 confidence = iq.result.confidence
                 if (answer == "NO") & (confidence >= 0.7000):
                     print(f"\n** PPE is not worn, or is worn improperly! (Query Confidence: {confidence:.2%}) **")
-                    play_sound("./assets/ppe-warning.mp3")
+                    play_sound(audio_file)
                 elif (answer == "YES") & (confidence >= 0.7000):
                     print(f"\n** PPE is worn properly, no action needed. (Query Confidence: {confidence:.2%}) **")
                 elif ((answer == "NO") & (confidence < 0.7000)) | ((answer == "YES") & (confidence < 0.7000)):
@@ -113,6 +114,6 @@ if __name__ == '__main__':
     validate_audio = validate_audio_file(args.audio)
 
     if validate_audio:
-        run_detector(GROUNDLIGHT_TOKEN, args.wait)
+        run_detector(GROUNDLIGHT_TOKEN, args.audio, args.wait)
     else:
         print(f"\nThe audio file is not a valid type. Audio file must be of type .mp3 or .aac.")
